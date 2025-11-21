@@ -5,10 +5,18 @@ import '../models/game.dart'; // modèle Dart pour un jeu
 
 class ApiService {
   // Récupérer la liste des jeux
-  static Future<List<Game>> fetchGames() async {
-    final url = Uri.parse(
-      'https://api.rawg.io/api/games?key=$RAWG_API_KEY'
-    );
+  static Future<List<Game>> fetchGames({String? search, String? genre}) async {
+    final Map<String, dynamic> queryParameters = {'key': RAWG_API_KEY};
+
+    if (search != null && search.isNotEmpty) {
+      queryParameters['search'] = search;
+    }
+
+    if (genre != null && genre.isNotEmpty) {
+      queryParameters['genres'] = genre.toLowerCase();
+    }
+
+    final url = Uri.https('api.rawg.io', '/api/games', queryParameters);
 
     final response = await http.get(url);
 
@@ -22,7 +30,5 @@ class ApiService {
   }
 }
 
-
-//https://api.rawg.io/api/games?platforms=6&key=5340b348e4a14f258ddbc8b41f3ffb3f
+// https://api.rawg.io/api/games?platforms=6&key=5340b348e4a14f258ddbc8b41f3ffb3f
 // attention ? et &
-//

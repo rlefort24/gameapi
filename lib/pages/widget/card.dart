@@ -10,18 +10,25 @@ class GameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(17),
-      color: Color.fromARGB(255, 255, 3, 3),
+      color: Color.fromARGB(255, 47, 2, 58),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(game.name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              game.name,
+              style: const TextStyle(
+                fontSize: 18,
+                color: Color.fromARGB(255, 252, 255, 255),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 4),
-            Text("Date de sortie : ${game.released}"),
-            const SizedBox(height: 4),
-            Text("Note : ${game.rating}"),
+            Text(
+              "Date de sortie : ${game.released}",
+              style: TextStyle(color: Color.fromARGB(255, 252, 255, 255)),
+            ),
             const SizedBox(height: 8),
             game.image.isNotEmpty
                 ? Image.network(game.image)

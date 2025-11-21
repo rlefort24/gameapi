@@ -9,9 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Recettes de Cuisine',
+      title: 'GameApi',
       theme: ThemeData(useSystemColors: true, useMaterial3: true),
-      home: HomePage(title: ''),
+      home: HomePage(title: 'GameApi'),
       routes: <String, WidgetBuilder>{},
       debugShowCheckedModeBanner: false,
     );
