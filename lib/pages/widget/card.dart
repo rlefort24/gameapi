@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projetapi/models/game.dart';
+import 'package:projetapi/pages/detailPage.dart';
 
 class GameCard extends StatelessWidget {
   final Game game;
@@ -8,11 +9,30 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(17),
-      color: Color.fromARGB(255, 47, 2, 58),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DetailPage(gameId: game.id, initialGameData: game),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 30, 30, 30),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              blurRadius: 6,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,8 +40,8 @@ class GameCard extends StatelessWidget {
               game.name,
               style: const TextStyle(
                 fontSize: 18,
-                color: Color.fromARGB(255, 252, 255, 255),
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 4),
