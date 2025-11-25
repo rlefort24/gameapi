@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projetapi/pages/homePage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:projetapi/services/utils/constants.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://pqopespxenjrullgapdi.supabase.co',
+    anonKey: SUPABASE_ANON_KEY,
+  );
   runApp(MyApp());
 }
 

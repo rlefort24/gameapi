@@ -34,7 +34,15 @@ class ApiService {
       throw Exception('Erreur : ${response.statusCode}');
     }
   }
+
+  static Future<Game?> fetchGameById(int id) async {
+    try {
+      return await fetchGameDetails(id);
+    } catch (e) {
+      print('Erreur lors de la récupération du jeu $id : $e');
+      return null;
+    }
+  }
 }
 
-// https://api.rawg.io/api/games?platforms=6&key=5340b348e4a14f258ddbc8b41f3ffb3f
 // attention ? et &

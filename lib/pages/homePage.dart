@@ -1,18 +1,117 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:projetapi/models/game.dart';
 import 'package:projetapi/services/rawgio_api.dart';
 import 'package:projetapi/pages/widget/card.dart';
+import 'package:projetapi/pages/played_games_page.dart';
+import 'package:projetapi/pages/to_play_games_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
-
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class SplashScreenState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      Duration(seconds: 2),
+      () => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainNavigationPage()),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color.fromARGB(255, 0, 17, 255),
+            const Color.fromARGB(255, 160, 24, 24),
+          ],
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.asset(
+            'assets/Gemini_Generated_Image_jppykxjppykxjppy.png',
+            width: 400,
+          ),
+          SizedBox(height: 20),
+          CircularProgressIndicator(color: Color.fromARGB(248, 192, 157, 0)),
+        ],
+      ),
+    );
+  }
+}
+
+class MainNavigationPage extends StatefulWidget {
+  const MainNavigationPage({super.key});
+
+  @override
+  State<MainNavigationPage> createState() => _MainNavigationPageState();
+}
+
+class _MainNavigationPageState extends State<MainNavigationPage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const GameDiscoveryPage(),
+    const PlayedGamesPage(),
+    const ToPlayGamesPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 15, 2, 2),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 8, 9, 39),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.check_circle),
+            label: 'Played',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.watch_later),
+            label: 'To Play',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: const Color.fromARGB(255, 202, 202, 202),
+        unselectedItemColor: Colors.white54,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class GameDiscoveryPage extends StatefulWidget {
+  const GameDiscoveryPage({super.key});
+
+  @override
+  State<GameDiscoveryPage> createState() => _GameDiscoveryPageState();
+}
+
+class _GameDiscoveryPageState extends State<GameDiscoveryPage> {
   late Future<List<Game>> futureGames;
   String selectedGenre = "All";
   String searchQuery = "";
@@ -27,11 +126,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       futureGames = ApiService.fetchGames(
         search: searchQuery,
-        genre: selectedGenre == "All"
-            ? null
-            : (selectedGenre == "RPG"
-                  ? "role-playing-games-rpg"
-                  : selectedGenre.toLowerCase().replaceAll(" ", "-")),
+        genre: selectedGenre == "All" ? null : selectedGenre,
       );
     });
   }
@@ -39,11 +134,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 15, 2, 2),
+      backgroundColor: const Color.fromARGB(255, 15, 2, 2),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 8, 9, 39),
-        title: Text(
-          widget.title,
+        backgroundColor: const Color.fromARGB(255, 8, 9, 39),
+        title: const Text(
+          "Game API",
           style: TextStyle(color: Color.fromARGB(255, 202, 202, 202)),
         ),
       ),
@@ -55,7 +150,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   width: 120,
-                  height: 50,
+                  height: 45,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 30, 30, 30),
                     borderRadius: BorderRadius.circular(8),
@@ -114,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
 
-                const SizedBox(width: 10),
+                const SizedBox(width: 16),
 
                 Expanded(
                   child: TextField(
@@ -162,7 +257,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
+
                 final games = snapshot.data!;
+
                 return ListView.builder(
                   itemCount: games.length,
                   itemBuilder: (context, index) {
