@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projetapi/pages/homePage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:projetapi/services/utils/constants.dart';
+import 'package:projetapi/services/utils/constantsPerso.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

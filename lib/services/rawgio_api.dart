@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:projetapi/services/utils/constants.dart';
+import 'package:projetapi/services/utils/constantsPerso.dart';
 import '../models/game.dart';
 
 class ApiService {
