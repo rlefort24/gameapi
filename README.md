@@ -1,6 +1,72 @@
-🎮 GameAPI AppBienvenue dans l'application GameAPI ! C'est une application de découverte de jeux vidéo qui utilise l'API de RAWG pour trouver des jeux et Supabase pour se souvenir de ceux que tu veux jouer ou que tu as déjà terminés.🚀 Comment ça marche ? (La Technologie)Ton application est un robot super intelligent construit avec :OutilRôleFlutter/Dart🏗️ Le robot constructeur qui crée les écrans, les boutons et les jolies cartes de jeu.API RAWG📞 La grande bibliothèque de jeux. On l'appelle pour avoir la liste des jeux et leurs détails (description, images, date de sortie, etc.).Supabase💾 Le carnet de notes magique. Il se souvient des jeux que tu as mis dans tes listes "À jouer" et "Déjà joué".📁 La Boîte à Outils (Structure des Fichiers)Voici comment sont rangées les pièces de ton robot :I. 🚦 Le Démarragemain.dart : Le bouton ON de l'application. Il démarre tout et dit à Supabase de se connecter.II. 📞 Les Robots Messagers (Services/APIs)rawgio_api.dart : Le robot des jeux. C'est lui qui sait parler à l'API RAWG pour :fetchGames() : Chercher la liste des jeux.fetchGameDetails(id) : Demander la description complète d'un jeu précis.supabase_service.dart : Le robot de la mémoire. C'est lui qui parle à Supabase pour :addToPlay(id) / addPlayed(id) : Noter un jeu dans ta liste.removeGame(id) : Enlever un jeu de ta liste.getGameStatus(id) : Vérifier si un jeu est déjà dans tes listes.III. 🧱 Les Blocs de Construction (Modèles & Widgets)game.dart : Le plan d'un jeu. Il dit ce qu'un jeu doit contenir (un nom, une image, une note, etc.).card.dart : La petite carte de jeu. C'est le bloc réutilisable que l'on voit dans les listes. Il est intelligent car il appelle Supabase (getGameStatus) pour savoir quelle couleur afficher (bleu pour "À jouer", vert pour "Déjà joué").IV. 🖼️ Les Écrans (Pages)homePage.dart : L'écran principal pour découvrir les jeux. Il utilise rawgio_api.dart pour afficher de nouveaux jeux.detailPage.dart : L'écran pour voir tous les secrets d'un jeu. Il appelle ApiService.fetchGameDetails quand il s'ouvre pour charger la description.to_play_games_page.dart / played_games_page.dart : Les écrans de tes listes de jeux. Ils utilisent supabase_service.dart pour avoir les ID, puis rawgio_api.dart pour avoir les détails de chaque jeu.⚙️ Configuration (Clés Secrètes)Pour que les robots messagers puissent faire leur travail, tu as besoin de leurs clés secrètes dans un fichier comme constants.dart :Clé RAWG : Pour parler au site de jeux (RAWG).Dartconst String RAWG_API_KEY = 'ta_cle_secrete_rawg'; 
-Clé Supabase : Pour te connecter à ta base de données (Supabase).Dartconst String SUPABASE_ANON_KEY = 'ta_cle_secrete_supabase';
-⚠️ Note pour toi : Les adresses et clés secrètes ne sont pas montrées ici, mais elles sont importantes dans le vrai code pour que les appels d'API fonctionnent !🛠️ Installation et LancementClone le dépôt :Bashgit clone [adresse de ton dépôt]
-Va dans le dossier du projet :Bashcd GameAPI
-Installe les dépendances (les outils nécessaires) :Bashflutter pub get
-Lance l'application :Bashflutter run
+# GameAPI App  
+L'application GameAPI est une application de découverte de jeux vidéo qui utilise l'API de RAWG pour trouver des jeux en scrollant ou en sélectionnant une catégorie disponible dans l'API et Supabase pour se souvenir de ceux que tu veux jouer ou que tu as déjà joués.
+
+|Outil|Rôle|
+|-----|----|
+|Flutter/Dart|Le language qui crée les écrans, les boutons et les cartes de jeu.|
+|API RAWG|La bibliothèque de jeux. On l'appelle pour avoir la liste des jeux et leurs détails (description, images, date de sortie, etc.).|
+|Supabase|Il enregistre les jeux que mis dans les listes "À jouer" et "Déjà joué".|
+
+# Configuration et Installation
+Prérequis
+* Flutter SDK installé et configuré.
+* Un compte Supabase.
+* Une clé d'API RAWG.
+
+# Étapes d'installation
+Cloner le dépôt :
+```
+git clone [URL_DU_VOTRE_DEPOT]
+cd GameApi
+```
+Installer les dépendances :
+```
+flutter pub get
+```
+Configuration des clés (Fichier constants.dart):
+
+Vous devez créer un fichier lib/services/utils/constants.dart et y définir vos clés secrètes :
+```
+// Dans lib/services/utils/constants.dart
+
+// Clé d'API RAWG
+const String RAWG_API_KEY = 'VOTRE_CLE_RAWG_ICI';
+
+// Clé publique (anon) Supabase
+const String SUPABASE_ANON_KEY = 'VOTRE_CLE_ANON_SUPABASE_ICI';
+```
+Configuration de la Base de Données Supabase :
+
+Votre base de données Supabase doit contenir une table nommée user_games avec la structure suivante :
+
+|Colonne|Type|Description|Contraintes|
+|-------|----|-----------|-----------|
+|id|int8|	Clé primaire auto-incrémentée|	PRIMARY KEY|
+|game_id|	int4|	L'ID du jeu de l'API RAWG|	UNIQUE (pour gérer le conflit dans l'upsert)|
+|status|	text|	Statut du jeu ('to_play' ou 'played')|	-|
+
+Exécuter l'application :
+```
+flutter run
+```
+
+# Les URL's
+* Pour demander votre clé RAWG (attention la clé est temporaire)
+https://rawg.io/apidocs
+* Créer votre table Supabase
+https://supabase.com
+
+# La page d'accueil
+<img width="499" height="867" alt="image" src="https://github.com/user-attachments/assets/9b8439e8-ab3c-4b8d-9e14-5d0c0abc36f3" />
+
+# La page des jeux déja joué
+<img width="484" height="867" alt="image" src="https://github.com/user-attachments/assets/47b6a9f1-5d01-46eb-ab60-84639fb77100" />
+
+# La page des jeux à joué
+<img width="491" height="862" alt="image" src="https://github.com/user-attachments/assets/26012828-91f1-4c3e-9c58-d0f6c71f74ac" />
+
+
+La sélection de catégorie.
+
+<img width="144" height="392" alt="image" src="https://github.com/user-attachments/assets/a42dec4c-8184-4088-a9f6-5bb96acbc33f" />
+
