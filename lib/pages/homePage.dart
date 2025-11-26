@@ -19,7 +19,7 @@ class SplashScreenState extends State<HomePage> {
   void initState() {
     super.initState();
     Timer(
-      Duration(seconds: 2),
+      Duration(seconds: 159),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MainNavigationPage()),
@@ -43,10 +43,7 @@ class SplashScreenState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset(
-            'assets/Gemini_Generated_Image_jppykxjppykxjppy.png',
-            width: 400,
-          ),
+          Image.asset('assets/logo.png', width: 400),
           SizedBox(height: 20),
           CircularProgressIndicator(color: Color.fromARGB(248, 192, 157, 0)),
         ],
